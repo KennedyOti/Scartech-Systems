@@ -1,40 +1,40 @@
 @php
-    $slides = [
-        [
-            'image' => 'images/hero/network-racks-patching.jpg',
-            'width' => 1023, 'height' => 679,
-            'alt' => 'Rows of network racks with high-density patch panels and colour-coded cabling, with an engineer walking the aisle',
-            'caption' => 'Structured cabling and network racks',
-            'service' => 'data-voice-solutions',
-            'focus' => 'object-[60%_center]',
-        ],
-        [
-            'image' => 'images/hero/cctv-monitoring-wall.jpg',
-            'width' => 1600, 'height' => 1200,
-            'alt' => 'Wall-mounted CCTV monitor showing a live split-screen view of a restaurant dining area, kitchen, stores and entrance',
-            'caption' => 'Multi-camera CCTV monitoring',
-            'service' => 'cctv-installation',
-            'focus' => 'object-[center_30%]',
-        ],
-        [
-            'image' => 'images/hero/boardroom-av.jpg',
-            'width' => 1920, 'height' => 1280,
-            'alt' => 'Boardroom with a wall-mounted display, conference camera and conference phone on the meeting table',
-            'caption' => 'Boardroom audio, video and conferencing',
-            'service' => 'sound-pa-solutions',
-            'focus' => 'object-center',
-        ],
-        [
-            'image' => 'images/hero/server-cabinets.jpg',
-            'width' => 678, 'height' => 508,
-            'alt' => 'Enclosed server and network cabinets on a raised floor in a clean server room',
-            'caption' => 'Server rooms and IT infrastructure',
-            'service' => 'it-solutions',
-            'focus' => 'object-[70%_center]',
-        ],
-    ];
-    $slideCount = count($slides);
-    $primaryPhone = $company['offices'][0]['phones'][0];
+$slides = [
+[
+'image' => 'images/hero/network-racks-patching.jpg',
+'width' => 1023, 'height' => 679,
+'alt' => 'Rows of network racks with high-density patch panels and colour-coded cabling, with an engineer walking the aisle',
+'caption' => 'Structured cabling and network racks',
+'service' => 'data-voice-solutions',
+'focus' => 'object-[60%_center]',
+],
+[
+'image' => 'images/hero/cctv11.jpeg',
+'width' => 1600, 'height' => 1200,
+'alt' => 'Wall-mounted CCTV monitor showing a live split-screen view of a restaurant dining area, kitchen, stores and entrance',
+'caption' => 'Multi-camera CCTV monitoring',
+'service' => 'cctv-installation',
+'focus' => 'object-[center_30%]',
+],
+[
+'image' => 'images/hero/boardroom-av.jpg',
+'width' => 1920, 'height' => 1280,
+'alt' => 'Boardroom with a wall-mounted display, conference camera and conference phone on the meeting table',
+'caption' => 'Boardroom audio, video and conferencing',
+'service' => 'sound-pa-solutions',
+'focus' => 'object-center',
+],
+[
+'image' => 'images/hero/server-cabinets.jpg',
+'width' => 678, 'height' => 508,
+'alt' => 'Enclosed server and network cabinets on a raised floor in a clean server room',
+'caption' => 'Server rooms and IT infrastructure',
+'service' => 'it-solutions',
+'focus' => 'object-[70%_center]',
+],
+];
+$slideCount = count($slides);
+$primaryPhone = $company['offices'][0]['phones'][0];
 @endphp
 
 <section
@@ -47,39 +47,36 @@
     @touchstart.passive="touchStart($event)"
     @touchend.passive="touchEnd($event)"
     aria-labelledby="hero-title"
-    class="hero relative isolate flex min-h-[640px] flex-col overflow-hidden bg-brand-900 sm:min-h-[700px] lg:min-h-[min(calc(100svh-5rem),54rem)]"
->
+    class="hero relative isolate flex min-h-[640px] flex-col overflow-hidden bg-brand-900 sm:min-h-[700px] lg:min-h-[min(calc(100svh-5rem),54rem)]">
     {{-- Background carousel --}}
     <div
         class="absolute inset-0 -z-20"
         role="region"
         aria-roledescription="carousel"
-        aria-label="Photographs of our installation work"
-    >
+        aria-label="Photographs of our installation work">
         @foreach ($slides as $index => $slide)
-            <div
-                @class(['hero-slide absolute inset-0 overflow-hidden', 'is-active is-initial' => $index === 0])
-                :class="{ 'is-active': current === {{ $index }}, 'is-previous': previous === {{ $index }}, 'is-initial': previous === null }"
-                role="group"
-                aria-roledescription="slide"
-                aria-label="{{ $index + 1 }} of {{ $slideCount }}: {{ $slide['caption'] }}"
-                @if ($index !== 0) aria-hidden="true" @endif
-                :aria-hidden="(current !== {{ $index }}).toString()"
+        <div
+            @class(['hero-slide absolute inset-0 overflow-hidden', 'is-active is-initial'=> $index === 0])
+            :class="{ 'is-active': current === {{ $index }}, 'is-previous': previous === {{ $index }}, 'is-initial': previous === null }"
+            role="group"
+            aria-roledescription="slide"
+            aria-label="{{ $index + 1 }} of {{ $slideCount }}: {{ $slide['caption'] }}"
+            @if ($index !== 0) aria-hidden="true" @endif
+            :aria-hidden="(current !== {{ $index }}).toString()"
             >
-                <picture>
-                    <source type="image/webp" srcset="{{ asset(Str::replaceLast('.jpg', '.webp', $slide['image'])) }}">
-                    <img
-                        src="{{ asset($slide['image']) }}"
-                        alt="{{ $slide['alt'] }}"
-                        width="{{ $slide['width'] }}"
-                        height="{{ $slide['height'] }}"
-                        sizes="100vw"
-                        fetchpriority="{{ $index === 0 ? 'high' : 'low' }}"
-                        decoding="async"
-                        class="size-full object-cover {{ $slide['focus'] }}"
-                    >
-                </picture>
-            </div>
+            <picture>
+                <source type="image/webp" srcset="{{ asset(Str::replaceLast('.jpg', '.webp', $slide['image'])) }}">
+                <img
+                    src="{{ asset($slide['image']) }}"
+                    alt="{{ $slide['alt'] }}"
+                    width="{{ $slide['width'] }}"
+                    height="{{ $slide['height'] }}"
+                    sizes="100vw"
+                    fetchpriority="{{ $index === 0 ? 'high' : 'low' }}"
+                    decoding="async"
+                    class="size-full object-cover {{ $slide['focus'] }}">
+            </picture>
+        </div>
         @endforeach
     </div>
 
@@ -98,7 +95,7 @@
                 <x-waveform variant="mark" tone="dark" :animate="true" class="h-9 w-auto" />
                 <ul class="flex items-center text-[0.9375rem] font-medium text-slate-100" aria-label="What we do">
                     @foreach (['Advisory', 'Installation', 'Maintenance'] as $item)
-                        <li @class(['px-3.5', 'pl-0' => $loop->first, 'border-l border-white/30' => ! $loop->first])>{{ $item }}</li>
+                    <li @class(['px-3.5', 'pl-0'=> $loop->first, 'border-l border-white/30' => ! $loop->first])>{{ $item }}</li>
                     @endforeach
                 </ul>
             </div>
@@ -125,15 +122,15 @@
 
             <dl class="mt-12 grid max-w-[40rem] grid-cols-2 gap-y-6 border-t border-white/20 pt-7 sm:grid-cols-4">
                 @foreach ([
-                    ['99.99%', 'Uptime target'],
-                    ['24/7', 'Support for SLA clients'],
-                    ['10', 'Service disciplines'],
-                    ['3', 'Offices in East Africa'],
+                ['99.99%', 'Uptime target'],
+                ['24/7', 'Support for SLA clients'],
+                ['10', 'Service disciplines'],
+                ['3', 'Offices in East Africa'],
                 ] as [$figure, $label])
-                    <div @class(['flex flex-col-reverse justify-end pr-4', 'sm:border-l sm:border-white/20 sm:pl-5' => ! $loop->first])>
-                        <dt class="mt-1 text-sm leading-snug text-slate-100">{{ $label }}</dt>
-                        <dd class="font-display text-2xl font-semibold tracking-[-0.02em] text-white md:text-[1.75rem]">{{ $figure }}</dd>
-                    </div>
+                <div @class(['flex flex-col-reverse justify-end pr-4', 'sm:border-l sm:border-white/20 sm:pl-5'=> ! $loop->first])>
+                    <dt class="mt-1 text-sm leading-snug text-slate-100">{{ $label }}</dt>
+                    <dd class="font-display text-2xl font-semibold tracking-[-0.02em] text-white md:text-[1.75rem]">{{ $figure }}</dd>
+                </div>
                 @endforeach
             </dl>
         </div>
@@ -144,26 +141,24 @@
         <div class="container-site flex items-stretch gap-4 max-md:pr-24">
             <ul class="grid flex-1 grid-cols-4 gap-2 lg:gap-6" aria-label="Choose a photograph">
                 @foreach ($slides as $index => $slide)
-                    <li>
-                        <button
-                            type="button"
-                            @click="go({{ $index }})"
-                            :aria-current="(current === {{ $index }}).toString()"
-                            aria-label="Show photograph {{ $index + 1 }}: {{ $slide['caption'] }}"
-                            class="group relative block h-full w-full pt-5 pb-5 text-left"
-                        >
-                            <span class="absolute inset-x-0 top-0 block h-0.5 overflow-hidden bg-white/20">
-                                <template x-for="run in (current === {{ $index }} ? [cycle] : [])" :key="run">
-                                    <span class="absolute inset-0 bg-white" :class="playing ? 'carousel-progress' : ''"></span>
-                                </template>
-                            </span>
-                            <span
-                                data-active="{{ $index === 0 ? 'true' : 'false' }}"
-                                :data-active="(current === {{ $index }}).toString()"
-                                class="hidden text-[0.9375rem] leading-snug font-medium text-slate-300 transition-colors duration-[120ms] group-hover:text-white data-[active=true]:text-white lg:block"
-                            >{{ $slide['caption'] }}</span>
-                        </button>
-                    </li>
+                <li>
+                    <button
+                        type="button"
+                        @click="go({{ $index }})"
+                        :aria-current="(current === {{ $index }}).toString()"
+                        aria-label="Show photograph {{ $index + 1 }}: {{ $slide['caption'] }}"
+                        class="group relative block h-full w-full pt-5 pb-5 text-left">
+                        <span class="absolute inset-x-0 top-0 block h-0.5 overflow-hidden bg-white/20">
+                            <template x-for="run in (current === {{ $index }} ? [cycle] : [])" :key="run">
+                                <span class="absolute inset-0 bg-white" :class="playing ? 'carousel-progress' : ''"></span>
+                            </template>
+                        </span>
+                        <span
+                            data-active="{{ $index === 0 ? 'true' : 'false' }}"
+                            :data-active="(current === {{ $index }}).toString()"
+                            class="hidden text-[0.9375rem] leading-snug font-medium text-slate-300 transition-colors duration-[120ms] group-hover:text-white data-[active=true]:text-white lg:block">{{ $slide['caption'] }}</span>
+                    </button>
+                </li>
                 @endforeach
             </ul>
 
@@ -184,9 +179,9 @@
         {{-- Current photograph caption on small screens --}}
         <div class="container-site -mt-2 pb-5 max-md:pr-24 lg:hidden">
             @foreach ($slides as $index => $slide)
-                <p @if ($index !== 0) hidden @endif :hidden="current !== {{ $index }}" class="text-sm text-slate-300">
-                    {{ $slide['caption'] }}
-                </p>
+            <p @if ($index !==0) hidden @endif :hidden="current !== {{ $index }}" class="text-sm text-slate-300">
+                {{ $slide['caption'] }}
+            </p>
             @endforeach
         </div>
     </div>

@@ -3,6 +3,10 @@
     $serviceImages = [
         'access-control-systems' => 'images/services/biometric-access-control-cabinet.jpg',
         'fiber-installation' => 'images/services/high-density-patching.jpg',
+        'event-management' => 'images/services/sound-pa-solutions.jpg',
+        'fire-system' => 'images/services/fire-system.jpg',
+        'electric-fence' => 'images/services/electric-fence.webp',
+        'pos-systems' => 'images/services/pos-systems.png',
     ];
 @endphp
 

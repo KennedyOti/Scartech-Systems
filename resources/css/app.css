@@ -1,0 +1,348 @@
+@import 'tailwindcss';
+
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+@source '../../app/**/*.php';
+
+@theme {
+    /* Blue — primary brand */
+    --color-brand-50: #f1f5fd;
+    --color-brand-100: #e0e9fa;
+    --color-brand-200: #c6d7f5;
+    --color-brand-300: #9dbcec;
+    --color-brand-400: #6e99e0;
+    --color-brand-500: #4a79d4; /* logo blue */
+    --color-brand-600: #3560bc; /* primary actions, AA on white */
+    --color-brand-700: #2a4c97;
+    --color-brand-800: #223d78;
+    --color-brand-900: #16294f; /* deep sections, footer */
+
+    /* Grey — structural */
+    --color-slate-25: #fafbfc;
+    --color-slate-50: #f4f6f8;
+    --color-slate-100: #e9edf2;
+    --color-slate-200: #d8dee7;
+    --color-slate-300: #b9c3d0;
+    --color-slate-400: #8894a6;
+    --color-slate-500: #66738a;
+    --color-slate-600: #4c5769;
+    --color-slate-700: #363f4e;
+    --color-slate-800: #232b37;
+    --color-slate-900: #141a23; /* body text, headings */
+
+    --color-white: #ffffff;
+
+    /* Functional only — never decorative */
+    --color-success: #2e7d5b;
+    --color-danger: #b4452f;
+
+    --font-display: 'Archivo', ui-sans-serif, system-ui, sans-serif;
+    --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: var(--font-body);
+
+    --radius-sm: 2px;
+    --radius-md: 4px;
+    --radius-lg: 8px;
+
+    --shadow-raised: 0 1px 2px rgb(20 26 35 / 0.06), 0 8px 24px -12px rgb(20 26 35 / 0.12);
+}
+
+@layer base {
+    html {
+        -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+        line-height: 1.7;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        font-family: var(--font-display);
+        color: var(--color-slate-900);
+        text-wrap: balance;
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--color-brand-600);
+        outline-offset: 2px;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+
+    ::selection {
+        background: var(--color-brand-100);
+        color: var(--color-slate-900);
+    }
+}
+
+/* Type scale — section 4.3 */
+@utility text-hero {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.25rem, 5vw, 4rem);
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+}
+
+@utility text-page-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+@utility text-section-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.5rem, 2.5vw, 2.125rem);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+}
+
+@utility text-card-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+}
+
+@utility text-lead {
+    font-size: 1.125rem;
+    line-height: 1.65;
+}
+
+@utility text-meta {
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+@utility container-site {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+
+    @media (width >= 40rem) {
+        padding-inline: 2rem;
+    }
+
+    @media (width >= 64rem) {
+        padding-inline: 2.5rem;
+    }
+}
+
+@utility scrollbar-none {
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+/* Rich text from the database (service body, product description) */
+@layer components {
+    .rich-text {
+        max-width: 68ch;
+        color: var(--color-slate-700);
+
+        & > * + * {
+            margin-top: 1.1em;
+        }
+
+        & h2 {
+            font-size: clamp(1.5rem, 2.5vw, 2.125rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+            margin-top: 2em;
+        }
+
+        & h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1.6em;
+        }
+
+        & a {
+            color: var(--color-brand-600);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        & ul {
+            list-style: disc;
+            padding-left: 1.25rem;
+        }
+    }
+}
+
+/* Waveform entrance (home hero) */
+@keyframes wave-draw {
+    from {
+        transform: scaleY(0);
+    }
+    to {
+        transform: scaleY(1);
+    }
+}
+
+.waveform-animate .waveform-bar {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: wave-draw 600ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(var(--i) * 40ms);
+}
+
+/*
+ * Hero background carousel: the incoming photograph wipes across the outgoing one in the direction of
+ * travel, while the outgoing photograph drifts slightly away and the new one settles with a slow zoom.
+ */
+.hero-slide {
+    z-index: 0;
+    opacity: 0;
+}
+
+.hero-slide img {
+    transform: scale(1.12);
+}
+
+.hero-slide.is-previous {
+    z-index: 1;
+    opacity: 1;
+}
+
+.hero-slide.is-previous img {
+    transform: scale(1.04) translateX(-4%);
+    transition: transform 1200ms cubic-bezier(0.77, 0, 0.18, 1);
+}
+
+[data-direction='prev'] .hero-slide.is-previous img {
+    transform: scale(1.04) translateX(4%);
+}
+
+.hero-slide.is-active {
+    z-index: 2;
+    opacity: 1;
+    animation: hero-wipe-next 1200ms cubic-bezier(0.77, 0, 0.18, 1) both;
+}
+
+[data-direction='prev'] .hero-slide.is-active {
+    animation-name: hero-wipe-prev;
+}
+
+.hero-slide.is-active img {
+    transform: scale(1.02);
+    transition: transform 8000ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.hero-slide.is-initial {
+    animation: none;
+}
+
+@keyframes hero-wipe-next {
+    from {
+        clip-path: inset(0 0 0 100%);
+    }
+    to {
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+@keyframes hero-wipe-prev {
+    from {
+        clip-path: inset(0 100% 0 0);
+    }
+    to {
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+.carousel-progress {
+    transform-origin: left;
+    animation: carousel-progress var(--carousel-duration, 7000ms) linear forwards;
+}
+
+.carousel-paused .carousel-progress {
+    animation-play-state: paused;
+}
+
+/* Floating WhatsApp button: a soft ring that draws the eye without moving the button */
+.whatsapp-pulse::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: #25d366;
+    z-index: -1;
+    animation: whatsapp-ring 2.8s ease-out 1.5s infinite;
+}
+
+@keyframes whatsapp-ring {
+    0% {
+        transform: scale(1);
+        opacity: 0.55;
+    }
+    70%,
+    100% {
+        transform: scale(1.55);
+        opacity: 0;
+    }
+}
+
+/* Scroll reveal: armed only once scripts run, so content is never hidden without JavaScript */
+.reveal-ready [data-reveal] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+        opacity 600ms cubic-bezier(0.2, 0.7, 0.2, 1),
+        transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal-ready [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+}
+
+@keyframes carousel-progress {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .waveform-animate .waveform-bar {
+        animation: none;
+    }
+
+    .hero-slide img,
+    .hero-slide.is-active img,
+    .hero-slide.is-previous img {
+        transform: none;
+    }
+
+    .hero-slide.is-active {
+        animation: none;
+    }
+}
